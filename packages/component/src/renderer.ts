@@ -4,7 +4,7 @@ import { ComponentRegistry } from './registry'
 
 /**
  * Renderer interface — turns AI output into renderer-native elements.
- * Implementations live in downstream packages (e.g. `triggerix-ai-ui-native`).
+ * Implementations live in downstream packages (e.g. `triggerix-ai-component-native`).
  */
 export interface Renderer<T = unknown> {
   mount: (output: AIOutput, container: T) => Scope
