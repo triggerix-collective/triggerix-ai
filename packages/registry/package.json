@@ -4,14 +4,14 @@
   "version": "0.0.0",
   "description": "AI-enhanced registry for Triggerix — extends BaseRegistry with metadata for events, actions, and conditions",
   "license": "MIT",
-  "homepage": "https://github.com/triggerix-lang/triggerix-ai#readme",
+  "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:triggerix-lang/triggerix-ai.git",
+    "url": "git@github.com:triggerix-collective/triggerix-ai.git",
     "directory": "packages/registry"
   },
   "bugs": {
-    "url": "https://github.com/triggerix-lang/triggerix-ai/issues"
+    "url": "https://github.com/triggerix-collective/triggerix-ai/issues"
   },
   "publishConfig": {
     "access": "public"

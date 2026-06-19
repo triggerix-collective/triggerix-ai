@@ -4,14 +4,14 @@
   "version": "0.0.0",
   "description": "AI integration layer for Triggerix — aggregate package re-exporting the suite",
   "license": "MIT",
-  "homepage": "https://github.com/triggerix-lang/triggerix-ai#readme",
+  "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:triggerix-lang/triggerix-ai.git",
+    "url": "git@github.com:triggerix-collective/triggerix-ai.git",
     "directory": "packages/triggerix-ai"
   },
   "bugs": {
-    "url": "https://github.com/triggerix-lang/triggerix-ai/issues"
+    "url": "https://github.com/triggerix-collective/triggerix-ai/issues"
   },
   "publishConfig": {
     "access": "public"

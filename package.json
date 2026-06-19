@@ -6,13 +6,13 @@
   "packageManager": "pnpm@11.8.0",
   "description": "AI integration layer for Triggerix — generates tool definitions, dynamic schemas, and system prompts from registered events, actions, and components",
   "license": "MIT",
-  "homepage": "https://github.com/triggerix-lang/triggerix-ai#readme",
+  "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:triggerix-lang/triggerix-ai.git"
+    "url": "git@github.com:triggerix-collective/triggerix-ai.git"
   },
   "bugs": {
-    "url": "https://github.com/triggerix-lang/triggerix-ai/issues"
+    "url": "https://github.com/triggerix-collective/triggerix-ai/issues"
   },
   "publishConfig": {
     "access": "public"
