@@ -1,0 +1,45 @@
+{
+  "name": "@triggerix-ai/fn",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "One-call Function Calling definition generator for Triggerix AI",
+  "license": "MIT",
+  "homepage": "https://github.com/triggerix-lang/triggerix-ai#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:triggerix-lang/triggerix-ai.git",
+    "directory": "packages/fn"
+  },
+  "bugs": {
+    "url": "https://github.com/triggerix-lang/triggerix-ai/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "stub": "unbuild --stub",
+    "build": "unbuild"
+  },
+  "dependencies": {
+    "@triggerix-ai/component": "workspace:*",
+    "@triggerix-ai/prompt": "workspace:*",
+    "@triggerix-ai/registry": "workspace:*",
+    "@triggerix-ai/schema": "workspace:*"
+  },
+  "devDependencies": {
+    "unbuild": "^3.6.1"
+  }
+}

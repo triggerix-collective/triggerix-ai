@@ -1,0 +1,48 @@
+{
+  "name": "@triggerix-ai/monorepo",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.8.0",
+  "description": "AI integration layer for Triggerix — generates tool definitions, dynamic schemas, and system prompts from registered events, actions, and components",
+  "license": "MIT",
+  "homepage": "https://github.com/triggerix-lang/triggerix-ai#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:triggerix-lang/triggerix-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/triggerix-lang/triggerix-ai/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "stub": "pnpm -r run stub",
+    "build": "pnpm -r run build",
+    "lint": "eslint --cache",
+    "release": "bumpp -r",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepare": "simple-git-hooks"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^9.0.0",
+    "@types/node": "^25.9.3",
+    "bumpp": "^11.1.0",
+    "defu": "^6.1.7",
+    "eslint": "^10.5.0",
+    "esno": "^4.8.0",
+    "nano-staged": "^1.0.2",
+    "simple-git-hooks": "^2.13.1",
+    "typescript": "^6.0.3",
+    "unbuild": "^3.6.1",
+    "vitest": "^4.1.9"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm nano-staged"
+  },
+  "nano-staged": {
+    "*": "eslint --cache --fix"
+  }
+}

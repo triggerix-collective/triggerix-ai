@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "moduleDetection": "force",
+    "rootDir": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@triggerix-ai/registry": ["./packages/registry/src/index.ts"],
+      "@triggerix-ai/component": ["./packages/component/src/index.ts"],
+      "@triggerix-ai/schema": ["./packages/schema/src/index.ts"],
+      "@triggerix-ai/prompt": ["./packages/prompt/src/index.ts"],
+      "@triggerix-ai/fn": ["./packages/fn/src/index.ts"],
+      "triggerix-ai": ["./packages/triggerix-ai/src/index.ts"]
+    },
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
+  },
+  "include": ["*.ts", "./packages/**/*.ts", "./tests/**/*.ts", "./scripts/**/*.ts"]
+}

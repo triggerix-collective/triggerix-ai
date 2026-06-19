@@ -1,0 +1,42 @@
+{
+  "name": "@triggerix-ai/registry",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "AI-enhanced registry for Triggerix — extends BaseRegistry with metadata for events, actions, and conditions",
+  "license": "MIT",
+  "homepage": "https://github.com/triggerix-lang/triggerix-ai#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:triggerix-lang/triggerix-ai.git",
+    "directory": "packages/registry"
+  },
+  "bugs": {
+    "url": "https://github.com/triggerix-lang/triggerix-ai/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "stub": "unbuild --stub",
+    "build": "unbuild"
+  },
+  "dependencies": {
+    "@triggerix/registry": "^0.0.7"
+  },
+  "devDependencies": {
+    "unbuild": "^3.6.1"
+  }
+}
