@@ -83,8 +83,8 @@ importers:
   packages/registry:
     dependencies:
       '@triggerix/registry':
-        specifier: ^0.0.7
-        version: 0.0.7
+        specifier: ^0.0.8
+        version: 0.0.8
     devDependencies:
       unbuild:
         specifier: ^3.6.1
@@ -985,8 +985,8 @@ packages:
   '@triggerix/core@0.0.7':
     resolution: {integrity: sha512-bb1NEBZ1Sq9VdIe0EnJ41cE0KNE7vbDe2sVPhU6FeeKmELcfrPLopsePszshXy9T9U1EtN3StbVzzhFXwtlhdw==}
 
-  '@triggerix/registry@0.0.7':
-    resolution: {integrity: sha512-/gjJKiPB53XttYbxLAos13aOHbGZz6dutKdTnjL/PzX0EBW3MZQAf2WUHWIprfX2J2A0JD8p2ifqug421c+JUA==}
+  '@triggerix/registry@0.0.8':
+    resolution: {integrity: sha512-q+fYGXTC8qi60Wxlc2mXu6RIkQYlXmWX65Cq4MgiUVvsVoJguAefPKhNZxmqhyf8eT0k/PPMFx2/v0FAlsBrGQ==}
 
   '@tybys/wasm-util@0.10.2':
     resolution: {integrity: sha512-RoBvJ2X0wuKlWFIjrwffGw1IqZHKQqzIchKaadZZfnNpsAYp2mM0h36JtPCjNDAHGgYez/15uMBpfGwchhiMgg==}
@@ -3359,7 +3359,7 @@ snapshots:
 
   '@triggerix/core@0.0.7': {}
 
-  '@triggerix/registry@0.0.7': {}
+  '@triggerix/registry@0.0.8': {}
 
   '@tybys/wasm-util@0.10.2':
     dependencies:
