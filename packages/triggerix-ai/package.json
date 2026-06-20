@@ -1,7 +1,7 @@
 {
   "name": "triggerix-ai",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "AI integration layer for Triggerix — aggregate package re-exporting the suite",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",

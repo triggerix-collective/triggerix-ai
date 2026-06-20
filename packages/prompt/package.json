@@ -1,7 +1,7 @@
 {
   "name": "@triggerix-ai/prompt",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Standard system prompt for Triggerix AI — teaches LLMs the ECA protocol and JSON shape",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
