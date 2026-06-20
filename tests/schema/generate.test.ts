@@ -42,11 +42,23 @@ function fixtureRegistry() {
 }
 
 describe('generateRuleSchema', () => {
-  it('should constrain event.type to registered event IDs', () => {
+  it('should constrain events[].type to registered event IDs', () => {
     const schema = generateRuleSchema(fixtureRegistry())
-    const eventType = (schema.properties as any).event.properties.type
-    expect(eventType.type).toBe('string')
-    expect(eventType.enum).toEqual(['button.click', 'input.blur'])
+    const eventItems = (schema.properties as any).events.items
+    expect(eventItems.type).toBe('object')
+    expect(eventItems.properties.type.enum).toEqual(['button.click', 'input.blur'])
+  })
+
+  it('should emit events as an array (multi-event OR)', () => {
+    const schema = generateRuleSchema(fixtureRegistry())
+    const events = (schema as any).properties.events
+    expect(events.type).toBe('array')
+    expect(events.minItems).toBe(1)
+  })
+
+  it('should require events in the required array', () => {
+    const schema = generateRuleSchema(fixtureRegistry())
+    expect((schema as any).required).toContain('events')
   })
 
   it('should generate oneOf for actions with each registered type', () => {
@@ -84,7 +96,7 @@ describe('generateRuleSchema', () => {
   it('should reflect new registrations dynamically', () => {
     const registry = fixtureRegistry()
     const schema1 = generateRuleSchema(registry)
-    const before = (schema1 as any).properties.event.properties.type.enum.length
+    const before = (schema1 as any).properties.events.items.properties.type.enum.length
 
     registry.registerEvent(defineAIEvent({
       id: 'page.load',
@@ -92,9 +104,42 @@ describe('generateRuleSchema', () => {
       description: 'Page load event'
     }))
     const schema2 = generateRuleSchema(registry)
-    const after = (schema2 as any).properties.event.properties.type.enum.length
+    const after = (schema2 as any).properties.events.items.properties.type.enum.length
     expect(after).toBe(before + 1)
-    expect((schema2 as any).properties.event.properties.type.enum).toContain('page.load')
+    expect((schema2 as any).properties.events.items.properties.type.enum).toContain('page.load')
+  })
+
+  it('should expose a ConditionGroup schema with only AND/OR operators', () => {
+    const schema = generateRuleSchema(fixtureRegistry())
+    const defs = (schema as any).definitions
+    expect(defs.ConditionGroup).toBeDefined()
+    expect(defs.ConditionGroup.properties.type.enum).toEqual(['and', 'or'])
+  })
+
+  it('should expose a ConditionItem schema for the flat conditions array', () => {
+    const schema = generateRuleSchema(fixtureRegistry())
+    const defs = (schema as any).definitions
+    expect(defs.ConditionItem).toBeDefined()
+    expect(defs.ConditionItem.oneOf).toEqual([
+      { $ref: '#/definitions/Condition' },
+      { $ref: '#/definitions/ConditionGroup' }
+    ])
+  })
+
+  it('should emit conditions as a flat array referencing ConditionItem', () => {
+    const schema = generateRuleSchema(fixtureRegistry())
+    const conditions = (schema as any).properties.conditions
+    expect(conditions.type).toBe('array')
+    expect(conditions.items).toEqual({ $ref: '#/definitions/ConditionItem' })
+  })
+
+  it('should make If.condition an array of ConditionItem', () => {
+    const schema = generateRuleSchema(fixtureRegistry())
+    const defs = (schema as any).definitions
+    expect(defs.If.properties.condition).toEqual({
+      type: 'array',
+      items: { $ref: '#/definitions/ConditionItem' }
+    })
   })
 })
 

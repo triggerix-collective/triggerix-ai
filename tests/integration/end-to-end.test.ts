@@ -95,7 +95,7 @@ describe('end-to-end: modify nickname', () => {
     expect(params.required).toEqual(['components', 'triggers'])
     // enum constraints present
     expect(params.properties.components.items.properties.type.enum).toEqual(['input', 'button'])
-    expect(params.properties.triggers.items.properties.event.properties.type.enum)
+    expect(params.properties.triggers.items.properties.events.items.properties.type.enum)
       .toEqual(expect.arrayContaining(['input.blur', 'button.click']))
     const actionVariants = params.properties.triggers.items.properties.actions.items.oneOf
     const actionTypes = actionVariants

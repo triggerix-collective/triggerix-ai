@@ -18,14 +18,17 @@ A single trigger:
 {
   "id": "unique-id",
   "name": "Human readable name (optional)",
-  "event":   { "type": "<registered event id>", "source": "<component name>" },
-  "conditions": { ... optional ... },
-  "actions":  [ ... at least one ... ]
+  "events":     [
+    { "type": "<registered event id>", "source": "<component name>" }
+  ],
+  "conditions": [ ... optional flat array, implicit AND ... ],
+  "actions":    [ ... at least one ... ]
 }
 \`\`\`
 
-### Event
-- \`type\` MUST be one of the registered event IDs.
+### Events
+- \`events\` is an array. Multiple events use OR semantics — any one match fires the trigger.
+- Each event's \`type\` MUST be one of the registered event IDs.
 - \`source\` references a component's \`name\` from \`components[]\`. Required when the event originates from a component.
 - \`payload\` is an optional opaque object passed by the runtime.
 
@@ -36,13 +39,21 @@ A single comparison:
 \`\`\`
 Operators: \`eq\`, \`neq\`, \`gt\`, \`gte\`, \`lt\`, \`lte\`, \`exists\`.
 
-### ConditionGroup
+### Condition array
+Top-level \`conditions\` is a **flat array** (no wrapper object). The array uses implicit AND.
 \`\`\`json
-{
-  "type": "and" | "or" | "not",
-  "conditions": [ <Condition | ConditionGroup>, ... ]
-}
+"conditions": [
+  { "left": ..., "operator": "eq", "right": ... },
+  {
+    "type": "or",
+    "conditions": [
+      { "left": ..., "operator": "eq", "right": ... }
+    ]
+  }
+]
 \`\`\`
+Each array element is either a \`Condition\` or a nested \`ConditionGroup\`.
+Supported group types: \`and\`, \`or\` (NOT \`not\` — use inverse comparisons or the expression system instead).
 
 ### Value
 A value is one of:
@@ -62,7 +73,7 @@ An action is either a plain action or a flow-control node:
 - **parallel**: run actions concurrently.
   \`{ "type": "parallel", "actions": [ ... ] }\`
 - **if**: branch on a condition.
-  \`{ "type": "if", "condition": <Condition|ConditionGroup>, "then": [ ... ], "else"?: [ ... ] }\`
+  \`{ "type": "if", "condition": <ConditionItem[]>, "then": [ ... ], "else"?: [ ... ] }\`
 - **tryCatch**: error handling.
   \`{ "type": "tryCatch", "try": [ ... ], "catch"?: [ ... ], "finally"?: [ ... ] }\`
 
@@ -90,7 +101,7 @@ A reference like \`{ "$ref": "nickname.value" }\` resolves to a live component v
 
 1. Output ONLY valid JSON conforming to the schema you were given. No prose, no markdown fences.
 2. Use ONLY event IDs, action IDs, and component types from the registered catalog.
-3. \`event.source\` MUST match the \`name\` of a component in \`components[]\` that can emit that event (see component-event map).
+3. \`event.source\` (per element of \`events[]\`) MUST match the \`name\` of a component in \`components[]\` that can emit that event (see component-event map).
 4. \`name\` values inside \`components[]\` MUST be unique within a single output.
 5. \`id\` values inside \`triggers[]\` MUST be unique within a single output.
 6. When no component registry is provided, emit only \`triggers[]\`.

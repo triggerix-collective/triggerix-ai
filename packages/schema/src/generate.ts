@@ -2,7 +2,7 @@ import type { AIComponentDef, ComponentRegistry } from '@triggerix-ai/component'
 import type { AIActionDef, AIEventDef, AIRegistry, ParamSchema } from '@triggerix-ai/registry'
 import type { JSONSchema } from './types'
 import {
-  LOGICAL_OPERATORS,
+  CONDITION_GROUP_TYPES,
   VALID_OPERATORS
 } from '@triggerix/core'
 
@@ -41,26 +41,32 @@ const CONDITION_SCHEMA: JSONSchema = {
   additionalProperties: false
 }
 
-/** JSON Schema for a ConditionGroup (AND / OR / NOT). */
+/** JSON Schema for a ConditionGroup (AND / OR only — `not` is intentionally excluded). */
 const CONDITION_GROUP_SCHEMA: JSONSchema = {
   type: 'object',
   title: 'ConditionGroup',
-  description: 'Logical grouping of conditions',
+  description: 'Logical grouping of conditions (AND / OR)',
   properties: {
-    type: { type: 'string', enum: [...LOGICAL_OPERATORS] },
+    type: { type: 'string', enum: [...CONDITION_GROUP_TYPES] },
     conditions: {
       type: 'array',
-      items: {
-        oneOf: [
-          { $ref: '#/definitions/Condition' },
-          { $ref: '#/definitions/ConditionGroup' }
-        ]
-      },
+      items: { $ref: '#/definitions/ConditionItem' },
       minItems: 1
     }
   },
   required: ['type', 'conditions'],
   additionalProperties: false
+}
+
+/**
+ * JSON Schema for a single ConditionItem — used as the array element type of
+ * the flat `conditions` array (implicit AND with explicit nested groups).
+ */
+const CONDITION_ITEM_SCHEMA: JSONSchema = {
+  oneOf: [
+    { $ref: '#/definitions/Condition' },
+    { $ref: '#/definitions/ConditionGroup' }
+  ]
 }
 
 const ACTION_NODE_REF: JSONSchema = { $ref: '#/definitions/ActionNode' }
@@ -91,10 +97,8 @@ const FLOW_DEFINITIONS: Record<string, JSONSchema> = {
     properties: {
       type: { const: 'if' },
       condition: {
-        oneOf: [
-          { $ref: '#/definitions/Condition' },
-          { $ref: '#/definitions/ConditionGroup' }
-        ]
+        type: 'array',
+        items: { $ref: '#/definitions/ConditionItem' }
       },
       then: { ...ACTION_ARRAY, minItems: 1 },
       else: ACTION_ARRAY
@@ -244,6 +248,7 @@ export interface GenerateToolSchemaOptions {
  * registry. Suitable for use as the `items` of a `triggers` array.
  */
 export function generateRuleSchema(registry: AIRegistry): JSONSchema {
+  const events = registry.getEvents()
   const actions = registry.getActions()
   return {
     $schema: 'http://json-schema.org/draft-07/schema#',
@@ -253,21 +258,29 @@ export function generateRuleSchema(registry: AIRegistry): JSONSchema {
     properties: {
       id: { type: 'string', description: 'Unique trigger identifier' },
       name: { type: 'string', description: 'Human-readable name' },
-      event: generateEventSchema(registry.getEvents()),
-      // Use $ref so the schema is defined exactly once. Tooling that
-      // doesn't follow $ref still sees a complete inline view via definitions.
-      conditions: { $ref: '#/definitions/ConditionGroup' },
+      // Multiple events use OR semantics at runtime — any one match fires the trigger.
+      events: {
+        type: 'array',
+        items: generateEventSchema(events),
+        minItems: 1
+      },
+      // Flat condition array with implicit AND; explicit nested groups still allowed.
+      conditions: {
+        type: 'array',
+        items: { $ref: '#/definitions/ConditionItem' }
+      },
       actions: {
         type: 'array',
         items: generateActionNodeSchema(actions),
         minItems: 1
       }
     },
-    required: ['id', 'event', 'actions'],
+    required: ['id', 'events', 'actions'],
     additionalProperties: false,
     definitions: {
       Condition: CONDITION_SCHEMA,
       ConditionGroup: CONDITION_GROUP_SCHEMA,
+      ConditionItem: CONDITION_ITEM_SCHEMA,
       ActionNode: generateActionNodeSchema(actions),
       ...FLOW_DEFINITIONS
     }

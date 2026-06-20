@@ -83,8 +83,8 @@ importers:
   packages/registry:
     dependencies:
       '@triggerix/registry':
-        specifier: ^0.0.9
-        version: 0.0.9
+        specifier: ^0.0.10
+        version: 0.0.10
     devDependencies:
       unbuild:
         specifier: ^3.6.1
@@ -99,8 +99,8 @@ importers:
         specifier: workspace:*
         version: link:../registry
       '@triggerix/core':
-        specifier: ^0.0.9
-        version: 0.0.9
+        specifier: ^0.0.10
+        version: 0.0.10
     devDependencies:
       unbuild:
         specifier: ^3.6.1
@@ -982,11 +982,11 @@ packages:
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
 
-  '@triggerix/core@0.0.9':
-    resolution: {integrity: sha512-HQLjuv7uk8K0jzsOVY4JGkVTW5T+4SjJdo6Bd2cflALdbezoQKbZzy9POniX6vsRo+aPL8D4mnQ7qEzzRMUlaQ==}
+  '@triggerix/core@0.0.10':
+    resolution: {integrity: sha512-cIXeyZLoW+i3Wqc+UWOZzPtNAhbmp9uZAdXAFaVnIh+iK0n8/SZXP3WPmDdakJWgcrBgPIVuZjz3ubyHximajA==}
 
-  '@triggerix/registry@0.0.9':
-    resolution: {integrity: sha512-Li2Gpcy6itupuoiluEWHigXFAYrBCkNE/E0YSbbuDVHtd2y7dDyD8eSBVoJ27y0GRidQXbM1h4//CSQaOiuY2w==}
+  '@triggerix/registry@0.0.10':
+    resolution: {integrity: sha512-MJZcKeIWE6wSMMC7QVj+1l6hGuXaTXZ2PZIoCR3Gql++z0i1KYO1fMZwpxtd7uf8wTZU9DihwmBkIGFeNwQgzA==}
 
   '@tybys/wasm-util@0.10.2':
     resolution: {integrity: sha512-RoBvJ2X0wuKlWFIjrwffGw1IqZHKQqzIchKaadZZfnNpsAYp2mM0h36JtPCjNDAHGgYez/15uMBpfGwchhiMgg==}
@@ -3357,9 +3357,9 @@ snapshots:
       estraverse: 5.3.0
       picomatch: 4.0.4
 
-  '@triggerix/core@0.0.9': {}
+  '@triggerix/core@0.0.10': {}
 
-  '@triggerix/registry@0.0.9': {}
+  '@triggerix/registry@0.0.10': {}
 
   '@tybys/wasm-util@0.10.2':
     dependencies:

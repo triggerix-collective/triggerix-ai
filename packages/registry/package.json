@@ -34,7 +34,7 @@
     "build": "unbuild"
   },
   "dependencies": {
-    "@triggerix/registry": "^0.0.9"
+    "@triggerix/registry": "^0.0.10"
   },
   "devDependencies": {
     "unbuild": "^3.6.1"

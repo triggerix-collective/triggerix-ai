@@ -111,8 +111,8 @@ describe('defineFunctionCalling', () => {
     const after = defineFunctionCalling({ registry })
     expect(after.systemPrompt).toContain('page.load')
     expect(before.systemPrompt).not.toContain('page.load')
-    const beforeTypes = (before.tools[0].function.parameters as any).properties.triggers.items.properties.event.properties.type.enum
-    const afterTypes = (after.tools[0].function.parameters as any).properties.triggers.items.properties.event.properties.type.enum
+    const beforeTypes = (before.tools[0].function.parameters as any).properties.triggers.items.properties.events.items.properties.type.enum
+    const afterTypes = (after.tools[0].function.parameters as any).properties.triggers.items.properties.events.items.properties.type.enum
     expect(afterTypes).toContain('page.load')
     expect(beforeTypes).not.toContain('page.load')
   })
