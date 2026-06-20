@@ -1,7 +1,7 @@
 {
   "name": "@triggerix-ai/builder",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Atomic UI builder for Triggerix AI — element-by-element UI construction via LLM tool calls",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
