@@ -1,7 +1,7 @@
 {
   "name": "triggerix-ai",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "AI integration layer for Triggerix — aggregate package re-exporting the suite",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
@@ -34,11 +34,10 @@
     "build": "unbuild"
   },
   "dependencies": {
+    "@triggerix-ai/builder": "workspace:*",
     "@triggerix-ai/component": "workspace:*",
     "@triggerix-ai/fn": "workspace:*",
-    "@triggerix-ai/prompt": "workspace:*",
-    "@triggerix-ai/registry": "workspace:*",
-    "@triggerix-ai/schema": "workspace:*"
+    "@triggerix-ai/registry": "workspace:*"
   },
   "devDependencies": {
     "unbuild": "^3.6.1"

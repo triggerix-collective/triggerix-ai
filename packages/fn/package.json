@@ -1,7 +1,7 @@
 {
   "name": "@triggerix-ai/fn",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "One-call Function Calling definition generator for Triggerix AI",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
@@ -33,12 +33,7 @@
     "stub": "unbuild --stub",
     "build": "unbuild"
   },
-  "dependencies": {
-    "@triggerix-ai/component": "workspace:*",
-    "@triggerix-ai/prompt": "workspace:*",
-    "@triggerix-ai/registry": "workspace:*",
-    "@triggerix-ai/schema": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "unbuild": "^3.6.1"
   }

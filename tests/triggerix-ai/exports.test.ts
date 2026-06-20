@@ -1,8 +1,7 @@
 import {
   // registry
   AIRegistry,
-  // prompt
-  BASE_SYSTEM_PROMPT,
+  BASE_TOOL_CALLING_PROTOCOL,
   // component
   BaseRenderer,
   ComponentDef,
@@ -14,11 +13,7 @@ import {
   defineAICondition,
   defineAIEvent,
   // fn
-  defineFunctionCalling,
-  // schema
-  generateRuleSchema,
-  generateSystemPrompt,
-  generateToolSchema
+  defineTools
 } from 'triggerix-ai'
 import { describe, expect, it } from 'vitest'
 
@@ -40,18 +35,9 @@ describe('triggerix-ai aggregate', () => {
     expect(typeof BaseRenderer).toBe('function')
   })
 
-  it('should re-export schema APIs', () => {
-    expect(typeof generateRuleSchema).toBe('function')
-    expect(typeof generateToolSchema).toBe('function')
-  })
-
-  it('should re-export prompt APIs', () => {
-    expect(typeof BASE_SYSTEM_PROMPT).toBe('string')
-    expect(typeof generateSystemPrompt).toBe('function')
-  })
-
   it('should re-export fn APIs', () => {
-    expect(typeof defineFunctionCalling).toBe('function')
+    expect(typeof defineTools).toBe('function')
+    expect(typeof BASE_TOOL_CALLING_PROTOCOL).toBe('string')
   })
 
   it('should compose end-to-end via a single import', () => {
@@ -75,10 +61,17 @@ describe('triggerix-ai aggregate', () => {
       events: ['button.click']
     }))
 
-    const { systemPrompt, tools } = defineFunctionCalling({ registry, component })
+    const { systemPrompt, tools } = defineTools({
+      tools: [{
+        name: 'generate_triggerix_output',
+        description: 'Generate UI bundle',
+        params: {}
+      }],
+      systemPrompt: 'button.click and toast.show are available'
+    })
     expect(systemPrompt).toContain('button.click')
     expect(systemPrompt).toContain('toast.show')
-    expect(systemPrompt).toContain('## Available Components')
+    expect(systemPrompt).toContain(BASE_TOOL_CALLING_PROTOCOL)
     expect(tools).toHaveLength(1)
     expect(tools[0].function.name).toBe('generate_triggerix_output')
   })

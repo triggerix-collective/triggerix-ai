@@ -9,8 +9,6 @@
     "paths": {
       "@triggerix-ai/registry": ["./packages/registry/src/index.ts"],
       "@triggerix-ai/component": ["./packages/component/src/index.ts"],
-      "@triggerix-ai/schema": ["./packages/schema/src/index.ts"],
-      "@triggerix-ai/prompt": ["./packages/prompt/src/index.ts"],
       "@triggerix-ai/fn": ["./packages/fn/src/index.ts"],
       "triggerix-ai": ["./packages/triggerix-ai/src/index.ts"]
     },

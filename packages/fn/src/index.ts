@@ -1,6 +1,12 @@
-export { defineFunctionCalling } from './functionCalling'
+export { BASE_TOOL_CALLING_PROTOCOL } from './baseProtocol'
+export { defineTools } from './defineTools'
+export { buildToolParameters, paramToJSONSchema } from './paramToSchema'
 export type {
-  DefineFunctionCallingOptions,
-  FunctionCallingResult,
-  ToolDefinition
+  DefineToolsInput,
+  DefineToolsResult,
+  JSONSchema,
+  JSONSchemaType,
+  ToolDef,
+  ToolDefinition,
+  ToolParamDef
 } from './types'

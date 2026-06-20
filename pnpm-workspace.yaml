@@ -2,6 +2,7 @@ minimumReleaseAgeExclude:
   - '@triggerix/core'
   - '@triggerix/registry'
   - '@types/node'
+  - '@triggerix/runtime'
 
 shellEmulator: true
 

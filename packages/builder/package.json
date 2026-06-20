@@ -1,14 +1,14 @@
 {
-  "name": "@triggerix-ai/prompt",
+  "name": "@triggerix-ai/builder",
   "type": "module",
   "version": "0.0.5",
-  "description": "Standard system prompt for Triggerix AI — teaches LLMs the ECA protocol and JSON shape",
+  "description": "Atomic UI builder for Triggerix AI — element-by-element UI construction via LLM tool calls",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:triggerix-collective/triggerix-ai.git",
-    "directory": "packages/prompt"
+    "url": "git+ssh://git@github.com/triggerix-collective/triggerix-ai.git",
+    "directory": "packages/builder"
   },
   "bugs": {
     "url": "https://github.com/triggerix-collective/triggerix-ai/issues"
@@ -23,9 +23,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -35,7 +35,9 @@
   },
   "dependencies": {
     "@triggerix-ai/component": "workspace:*",
-    "@triggerix-ai/registry": "workspace:*"
+    "@triggerix-ai/fn": "workspace:*",
+    "@triggerix/core": "^0.0.11",
+    "@triggerix/runtime": "^0.0.11"
   },
   "devDependencies": {
     "unbuild": "^3.6.1"
