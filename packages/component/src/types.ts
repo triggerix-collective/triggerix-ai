@@ -3,7 +3,7 @@
  * Describes the shape of an AI-configurable prop without runtime behavior.
  */
 export interface ComponentPropSchema {
-  type: 'string' | 'number' | 'boolean' | 'object'
+  type: 'string' | 'number' | 'boolean' | 'object' | 'array'
   description?: string
   enum?: unknown[]
   default?: unknown
