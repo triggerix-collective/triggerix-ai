@@ -13,9 +13,6 @@
   "bugs": {
     "url": "https://github.com/triggerix-collective/triggerix-ai/issues"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -29,6 +26,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "stub": "unbuild --stub",
     "build": "unbuild"

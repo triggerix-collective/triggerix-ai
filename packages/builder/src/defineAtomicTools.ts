@@ -46,12 +46,12 @@ export function defineAtomicTools(
     actionType: new Set(options.actionTypes ?? [])
   })
 
-  const componentTypeEnum = options.componentTypes && options.componentTypes.length > 0
-    ? options.componentTypes
-    : undefined
-  const actionTypeEnum = options.actionTypes && options.actionTypes.length > 0
-    ? options.actionTypes
-    : undefined
+  const componentTypeEnum
+    = options.componentTypes && options.componentTypes.length > 0
+      ? options.componentTypes
+      : undefined
+  const actionTypeEnum
+    = options.actionTypes && options.actionTypes.length > 0 ? options.actionTypes : undefined
 
   const tools: ToolDef[] = [
     {
@@ -79,19 +79,34 @@ export function defineAtomicTools(
       name: 'updateComponentProp',
       description: '修改已添加组件的某个属性值。',
       params: {
-        name: { type: 'string', required: true, description: '要修改的组件名（与 addComponent 的 name 一致）' },
-        propName: { type: 'string', required: true, description: '属性名（见组件的 props schema）' },
-        value: { type: 'string', required: true, description: '新值；任意 JSON，序列化成字符串后传入。例: 字符串→"hello" / 数字→"42" / 数组→"[1,2]" / 对象→\'{"a":1}\'。demo 端会 JSON.parse。' }
+        name: {
+          type: 'string',
+          required: true,
+          description: '要修改的组件名（与 addComponent 的 name 一致）'
+        },
+        propName: {
+          type: 'string',
+          required: true,
+          description: '属性名（见组件的 props schema）'
+        },
+        value: {
+          type: 'string',
+          required: true,
+          description:
+            '新值；任意 JSON，序列化成字符串后传入。例: 字符串→"hello" / 数字→"42" / 数组→"[1,2]" / 对象→\'{"a":1}\'。demo 端会 JSON.parse。'
+        }
       }
     },
     {
       name: 'addTrigger',
-      description: '为指定组件添加一个事件触发器，绑定到一个业务 action。多次调用同一 (eventType, eventSource) 会自动合并到 sequence。',
+      description:
+        '为指定组件添加一个事件触发器，绑定到一个业务 action。多次调用同一 (eventType, eventSource) 会自动合并到 sequence。',
       params: {
         eventType: {
           type: 'string',
           required: true,
-          description: '事件类型（见组件的 events 字段，如 button.click / input.change / radio.change）'
+          description:
+            '事件类型（见组件的 events 字段，如 button.click / input.change / radio.change）'
         },
         eventSource: {
           type: 'string',
@@ -106,7 +121,8 @@ export function defineAtomicTools(
         },
         actionParams: {
           type: 'object',
-          description: 'action 参数；引用组件值用字符串 "$ref:<componentName>.<path>"（如 "$ref:nick.value"）'
+          description:
+            'action 参数；引用组件值用字符串 "$ref:<componentName>.<path>"（如 "$ref:nick.value"）'
         }
       }
     },
@@ -143,7 +159,9 @@ export function defineAtomicTools(
         const et = asString(args.eventType)
         const es = asString(args.eventSource)
         const at = asString(args.actionType)
-        const ap = (args.actionParams && typeof args.actionParams === 'object' ? args.actionParams : {}) as Record<string, unknown>
+        const ap = (
+          args.actionParams && typeof args.actionParams === 'object' ? args.actionParams : {}
+        ) as Record<string, unknown>
         return builder.addTrigger(et, es, at, ap)
       }
       case 'clear':

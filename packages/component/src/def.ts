@@ -1,8 +1,4 @@
-import type {
-  AIComponentDef,
-  ComponentPropSchema,
-  EmitFn
-} from './types'
+import type { AIComponentDef, ComponentPropSchema, EmitFn } from './types'
 
 /**
  * Abstract base class for a concrete component implementation.

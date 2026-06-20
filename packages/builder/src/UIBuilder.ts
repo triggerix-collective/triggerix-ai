@@ -41,7 +41,10 @@ export type SubmitResult
 export class UIBuilder {
   private _components: ComponentInstance[] = []
   /** Pending triggers keyed by `${eventType}:${eventSource}`; submit() flushes. */
-  private _pendingTriggers = new Map<string, { eventType: string, eventSource: string, actions: ActionNode[] }>()
+  private _pendingTriggers = new Map<
+    string,
+    { eventType: string, eventSource: string, actions: ActionNode[] }
+  >()
 
   private _validComponentTypes: ReadonlySet<string> = new Set()
   private _validActionTypes: ReadonlySet<string> = new Set()
@@ -58,7 +61,10 @@ export class UIBuilder {
    * `defineAtomicTools` 会自动调这个方法（基于它收到的 components / actions 列表）。
    * 直接用 UIBuilder 的调用方应自行调一次。
    */
-  setValidTypes(opts: { componentType: ReadonlySet<string>, actionType: ReadonlySet<string> }): void {
+  setValidTypes(opts: {
+    componentType: ReadonlySet<string>
+    actionType: ReadonlySet<string>
+  }): void {
     this._validComponentTypes = opts.componentType
     this._validActionTypes = opts.actionType
   }
@@ -78,7 +84,7 @@ export class UIBuilder {
     const c = this._components.find(c => c.name === name)
     if (!c)
       return { ok: false, errors: [`Component not found: "${name}"`] }
-    c.props = { ...(c.props ?? {}), [propName]: value }
+    c.props = { ...c.props, [propName]: value }
     return { ok: true }
   }
 
@@ -137,9 +143,10 @@ export class UIBuilder {
     let i = 0
     for (const pending of this._pendingTriggers.values()) {
       const id = `trigger_${++i}`
-      const actions = pending.actions.length === 1
-        ? pending.actions
-        : [{ type: 'sequence', actions: pending.actions } as ActionNode]
+      const actions
+        = pending.actions.length === 1
+          ? pending.actions
+          : [{ type: 'sequence', actions: pending.actions } as ActionNode]
       triggers.push({
         id,
         events: pending.eventSource

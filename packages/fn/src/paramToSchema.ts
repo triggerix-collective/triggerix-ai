@@ -25,8 +25,7 @@ export function paramToJSONSchema(param: ToolParamDef): JSONSchema {
   if (param.type === 'object') {
     const props = param.properties ?? {}
     const properties: Record<string, JSONSchema> = {}
-    for (const [k, v] of Object.entries(props))
-      properties[k] = paramToJSONSchema(v)
+    for (const [k, v] of Object.entries(props)) properties[k] = paramToJSONSchema(v)
 
     schema.properties = properties
     const requiredProps = param.requiredProps ?? []
@@ -45,9 +44,7 @@ export function paramToJSONSchema(param: ToolParamDef): JSONSchema {
  * Aggregates every param's schema, collects `required` keys, and sets
  * `additionalProperties: false` (we want strict args).
  */
-export function buildToolParameters(
-  params: Record<string, ToolParamDef>
-): JSONSchema {
+export function buildToolParameters(params: Record<string, ToolParamDef>): JSONSchema {
   const properties: Record<string, JSONSchema> = {}
   const required: string[] = []
   for (const [name, def] of Object.entries(params)) {

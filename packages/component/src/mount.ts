@@ -72,8 +72,7 @@ export function mount<TContainer, TElement>(
 
   return {
     unmount() {
-      for (const fn of cleanups)
-        fn()
+      for (const fn of cleanups) fn()
       elements.clear()
     }
   }
