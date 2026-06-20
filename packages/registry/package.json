@@ -1,7 +1,7 @@
 {
   "name": "@triggerix-ai/registry",
   "type": "module",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "AI-enhanced registry for Triggerix — extends BaseRegistry with metadata for events, actions, and conditions",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",

@@ -1,7 +1,7 @@
 {
   "name": "@triggerix-ai/monorepo",
   "type": "module",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "packageManager": "pnpm@11.8.0",
   "description": "AI integration layer for Triggerix — generates tool definitions, dynamic schemas, and system prompts from registered events, actions, and components",
