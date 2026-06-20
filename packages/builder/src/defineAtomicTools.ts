@@ -57,7 +57,6 @@ export function defineAtomicTools(
     {
       name: 'addComponent',
       description: '向当前 UI 草稿添加一个原子组件。',
-      parallel: true,
       params: {
         type: {
           type: 'string',
@@ -79,7 +78,6 @@ export function defineAtomicTools(
     {
       name: 'updateComponentProp',
       description: '修改已添加组件的某个属性值。',
-      parallel: true,
       params: {
         name: { type: 'string', required: true, description: '要修改的组件名（与 addComponent 的 name 一致）' },
         propName: { type: 'string', required: true, description: '属性名（见组件的 props schema）' },
@@ -89,7 +87,6 @@ export function defineAtomicTools(
     {
       name: 'addTrigger',
       description: '为指定组件添加一个事件触发器，绑定到一个业务 action。多次调用同一 (eventType, eventSource) 会自动合并到 sequence。',
-      parallel: true,
       params: {
         eventType: {
           type: 'string',
@@ -176,11 +173,24 @@ function renderProtocolPrompt(appendix?: string): string {
     ``,
     `## 步骤`,
     ``,
-    `1. 用 \`addComponent\` 逐个添加 UI 元素`,
-    `2. 用 \`addTrigger\` 为按钮或输入框绑定业务 action`,
+    `1. 用 \`addComponent\` 逐个添加 UI 元素（**所有必填 props 一次性传入 props 字段**，不要逐个 updateComponentProp）`,
+    `2. 用 \`addTrigger\` 为按钮绑定业务 action`,
     `3. 用 \`submit\` 提交草稿`,
     ``,
     `**不要直接调业务 action 工具** —— 这些 action 只能通过 addTrigger 的 actionType 字段引用，由用户点击按钮触发。`,
+    ``,
+    `## 最小化原则`,
+    ``,
+    `- **组件尽量少**：一个表单 = 输入元素 + 提交按钮。重复输入字段只用一个组件，不需要 label 包装。`,
+    `- **必填 props 一次性传**给 \`addComponent.props\`，不要先 addComponent 再 updateComponentProp（会浪费 2 倍调用）`,
+    `- **不调 updateComponentProp** 除非要修改已添加组件的某个 prop`,
+    ``,
+    `## 组件选择指引`,
+    ``,
+    `- 2-4 个互斥选项 → 用 **radio**（直观）`,
+    `- 5+ 个选项 → 用 **select**（节省空间）`,
+    `- 文本输入 → **input**；多行文本 → 用 input + style 提示（没有 textarea）`,
+    `- 提交 / 取消 / 操作按钮 → **button**`,
     ``,
     `## trigger 设计要点`,
     ``,
@@ -192,7 +202,12 @@ function renderProtocolPrompt(appendix?: string): string {
     ``,
     `## 工具调用失败时`,
     ``,
-    `每个 addComponent / addTrigger 都会校验。失败时返回的错误信息告诉你哪里错了，立即修正后重试。`
+    `每个 addComponent / addTrigger 都会校验。失败时返回的错误信息告诉你哪里错了，立即修正后重试。`,
+    ``,
+    `## 回复风格`,
+    ``,
+    `调完工具后只用 1 句话告诉用户接下来做什么（如"好的，请在下方表单修改"）。`,
+    `**不要**输出你的推理过程、构造计划、组件清单。thinking 仅用来规划，不展示给用户。`
   ]
   if (appendix && appendix.trim().length > 0) {
     lines.push('', '---', '', appendix.trim())
