@@ -3,13 +3,14 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    include: ['tests/**/*.test.ts']
+    include: ['tests/**/*.test.ts', 'packages/*/tests/**/*.test.ts']
   },
   resolve: {
     alias: {
       '@triggerix-ai/registry': resolve(__dirname, 'packages/registry/src/index.ts'),
       '@triggerix-ai/component': resolve(__dirname, 'packages/component/src/index.ts'),
       '@triggerix-ai/fn': resolve(__dirname, 'packages/fn/src/index.ts'),
+      '@triggerix-ai/builder': resolve(__dirname, 'packages/builder/src/index.ts'),
       'triggerix-ai': resolve(__dirname, 'packages/triggerix-ai/src/index.ts')
     }
   }

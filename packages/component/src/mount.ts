@@ -1,5 +1,7 @@
+import type { RefResolver } from '@triggerix/runtime'
 import type { ComponentDef } from './def'
 import type { AIOutput, EmitFn, Scope } from './types'
+import { resolveRefsDeep } from '@triggerix/runtime'
 
 /**
  * Renderer-specific mount contract — abstracts how elements are attached to
@@ -34,6 +36,14 @@ export type MountEmitFn = (
  *
  * Behaviour:
  * - Iterates `output.components`, finds the matching `ComponentDef` by `type`
+ * - Normalises any `"$ref:foo.bar"` string values inside `props` into the
+ *   runtime's `{ $ref: 'foo.bar' }` object form (the runtime protocol layer
+ *   only recognises the object form; the string form is a convenience the
+ *   builder exposes to LLMs so they don't forget the `{}` braces)
+ * - If `refResolver` is supplied, every `{ $ref }` in the normalised props
+ *   is resolved against it before reaching `def.create` (so component
+ *   props can reference values outside the mounted output — e.g. the host
+ *   application's reactive state)
  * - Calls `def.create(props, scopedEmit)` where `scopedEmit` captures
  *   `instance.name` as the `source` argument
  * - Appends each created element to `container` via `ctx.appendChild`
@@ -48,7 +58,8 @@ export function mount<TContainer, TElement>(
   container: TContainer,
   components: ReadonlyArray<ComponentDef<TElement>>,
   emit: MountEmitFn,
-  ctx: RendererContext<TContainer, TElement>
+  ctx: RendererContext<TContainer, TElement>,
+  refResolver?: RefResolver
 ): Scope {
   const elements = new Map<string, TElement>()
   const cleanups: Array<() => void> = []
@@ -63,7 +74,10 @@ export function mount<TContainer, TElement>(
     const source = instance.name
     const scopedEmit: EmitFn = (eventId, payload) => emit(eventId, source, payload)
 
-    const el = def.create(instance.props ?? {}, scopedEmit)
+    const normalised = normaliseRefStrings(instance.props ?? {})
+    const props = refResolver ? resolveRefsDeep(normalised, refResolver) : normalised
+
+    const el = def.create(props as Record<string, unknown>, scopedEmit)
     if (instance.name)
       elements.set(instance.name, el)
     ctx.appendChild(container, el)
@@ -76,4 +90,27 @@ export function mount<TContainer, TElement>(
       elements.clear()
     }
   }
+}
+
+/**
+ * Recursively convert `"$ref:foo.bar"` string leaves in a value tree into
+ * the runtime's `{ $ref: 'foo.bar' }` object form. Non-string leaves and
+ * sub-trees without ref strings pass through unchanged. The conversion is
+ * idempotent: pre-existing `{ $ref }` objects are left alone.
+ */
+function normaliseRefStrings(value: unknown): unknown {
+  if (typeof value === 'string') {
+    return value.startsWith('$ref:') ? { $ref: value.slice(5) } : value
+  }
+  if (Array.isArray(value)) {
+    return value.map(v => normaliseRefStrings(v))
+  }
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      out[k] = normaliseRefStrings(v)
+    }
+    return out
+  }
+  return value
 }

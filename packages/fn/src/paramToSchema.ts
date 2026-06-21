@@ -15,6 +15,8 @@ export function paramToJSONSchema(param: ToolParamDef): JSONSchema {
     schema.enum = param.enum
   if (param.default !== undefined)
     schema.default = param.default
+  if (param.format !== undefined)
+    schema.format = param.format
 
   if (param.type === 'array') {
     if (!param.items)

@@ -33,6 +33,9 @@
     "stub": "unbuild --stub",
     "build": "unbuild"
   },
+  "dependencies": {
+    "@triggerix/runtime": "^0.0.11"
+  },
   "devDependencies": {
     "unbuild": "^3.6.1"
   }

@@ -3,8 +3,7 @@
  *
  * These types are the **only contract** between the library and its callers.
  * They contain no triggerix-specific concepts — every field here is general
- * enough to be used by any LLM tool-calling application (food ordering,
- * customer support, IDE tooling, etc.).
+ * enough to be used by any LLM tool-calling application.
  */
 
 /** Primitive JSON Schema type strings. */
@@ -31,6 +30,13 @@ export interface ToolParamDef {
   required?: boolean
   /** Default value (informational; not auto-applied). */
   default?: string | number | boolean | null
+  /**
+   * Semantic format hint. Standard JSON Schema field — passed through to the
+   * generated schema. Custom values are interpreted by the dispatch layer:
+   *  - `'json'`: param is declared as `type: 'string'` but carries a JSON-encoded
+   *    value; the dispatcher will JSON.parse before forwarding to the handler.
+   */
+  format?: string
   /** For `type: 'array'`: shape of each element. */
   items?: ToolParamDef
   /** For `type: 'object'`: nested property shapes. */
@@ -83,6 +89,7 @@ export interface JSONSchema {
   anyOf?: JSONSchema[]
   const?: unknown
   default?: unknown
+  format?: string
   $ref?: string
   $defs?: Record<string, JSONSchema>
   definitions?: Record<string, JSONSchema>
