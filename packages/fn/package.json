@@ -1,7 +1,7 @@
 {
   "name": "@triggerix-ai/fn",
   "type": "module",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "One-call Function Calling definition generator for Triggerix AI",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",

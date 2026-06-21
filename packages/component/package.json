@@ -1,7 +1,7 @@
 {
   "name": "@triggerix-ai/component",
   "type": "module",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Component protocol layer for Triggerix AI — AI metadata definitions, component registry, and renderer abstraction",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
