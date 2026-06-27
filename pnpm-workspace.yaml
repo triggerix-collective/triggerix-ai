@@ -1,7 +1,6 @@
 minimumReleaseAgeExclude:
   - '@triggerix/core'
   - '@triggerix/registry'
-  - '@types/node'
   - '@triggerix/runtime'
 
 shellEmulator: true
@@ -14,3 +13,32 @@ packages:
 allowBuilds:
   esbuild: true
   simple-git-hooks: true
+
+# Named catalogs（按依赖域分组，对应 package.json 的 `catalog:<tag>` 引用）
+# 新加 triggerix-* 包时，只改对应 tag 即可；其它项目引用同 tag 也能复用。
+catalogs:
+  # 构建工具链（typescript / unbuild / vitest）
+  build:
+    typescript: ^6.0.3
+    unbuild: ^3.6.1
+    vitest: ^4.1.9
+
+  # Lint / 质量工具
+  lint:
+    '@antfu/eslint-config': ^9.1.0
+    bumpp: ^11.1.0
+    eslint: ^10.5.0
+    nano-staged: ^1.0.2
+    simple-git-hooks: ^2.13.1
+
+  # Node 运行时 / 类型 / 工具
+  node:
+    '@types/node': ^26.0.1
+    defu: ^6.1.7
+    esno: ^4.8.0
+
+  # @triggerix/* — 底层 runtime / core / registry（triggerix 主 monorepo）
+  triggerix-core:
+    '@triggerix/core': ^0.0.11
+    '@triggerix/registry': ^0.0.11
+    '@triggerix/runtime': ^0.0.11

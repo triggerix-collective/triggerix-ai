@@ -36,10 +36,10 @@
   "dependencies": {
     "@triggerix-ai/component": "workspace:*",
     "@triggerix-ai/fn": "workspace:*",
-    "@triggerix/core": "^0.0.11",
-    "@triggerix/runtime": "^0.0.11"
+    "@triggerix/core": "catalog:triggerix-core",
+    "@triggerix/runtime": "catalog:triggerix-core"
   },
   "devDependencies": {
-    "unbuild": "^3.6.1"
+    "unbuild": "catalog:build"
   }
 }

@@ -40,6 +40,6 @@
     "@triggerix-ai/registry": "workspace:*"
   },
   "devDependencies": {
-    "unbuild": "^3.6.1"
+    "unbuild": "catalog:build"
   }
 }

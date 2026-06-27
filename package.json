@@ -27,17 +27,17 @@
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^9.1.0",
-    "@types/node": "^26.0.1",
-    "bumpp": "^11.1.0",
-    "defu": "^6.1.7",
-    "eslint": "^10.5.0",
-    "esno": "^4.8.0",
-    "nano-staged": "^1.0.2",
-    "simple-git-hooks": "^2.13.1",
-    "typescript": "^6.0.3",
-    "unbuild": "^3.6.1",
-    "vitest": "^4.1.9"
+    "@antfu/eslint-config": "catalog:lint",
+    "@types/node": "catalog:node",
+    "bumpp": "catalog:lint",
+    "defu": "catalog:node",
+    "eslint": "catalog:lint",
+    "esno": "catalog:node",
+    "nano-staged": "catalog:lint",
+    "simple-git-hooks": "catalog:lint",
+    "typescript": "catalog:build",
+    "unbuild": "catalog:build",
+    "vitest": "catalog:build"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm nano-staged"
