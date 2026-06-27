@@ -5,4 +5,4 @@ export type {
   ExecuteCallResult
 } from './defineAtomicTools'
 export { UIBuilder } from './UIBuilder'
-export type { BuilderResult, BuiltUI, SubmitResult } from './UIBuilder'
+export type { BuilderResult, BuiltUI, SubmitResult, SubmitValidator } from './UIBuilder'

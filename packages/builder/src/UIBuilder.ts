@@ -19,6 +19,22 @@ export type SubmitResult
     | { ok: false, errors: string[] }
 
 /**
+ * Validator invoked at the very end of `submit()`, after type / name checks
+ * and after the pending triggers have been flushed into a `Trigger[]`.
+ *
+ * Return `[]` to allow submit; any non-empty array short-circuits submit
+ * with those errors returned to the LLM as the tool result.
+ *
+ * Apps register their own validators to enforce app-specific completeness
+ * invariants (e.g. "any form with an editable field must have a submit
+ * button"). The builder itself stays domain-agnostic.
+ */
+export type SubmitValidator = (
+  components: ReadonlyArray<ComponentInstance>,
+  triggers: ReadonlyArray<Trigger>
+) => string[]
+
+/**
  * Stateful buffer for an AI-assembled UI draft.
  *
  * The LLM drives construction through `addComponent` / `addTrigger` /
@@ -48,8 +64,23 @@ export class UIBuilder {
 
   private _validComponentTypes: ReadonlySet<string> = new Set()
   private _validActionTypes: ReadonlySet<string> = new Set()
+  /** App-injected completeness validators; all must return [] to allow submit. */
+  private _submitValidators: SubmitValidator[] = []
 
   constructor() {}
+
+  /**
+   * Register a cross-component completeness validator. Called at the end of
+   * `submit()` after the pending triggers have been flushed. Any non-empty
+   * returned error array aborts submit and is returned to the LLM so it can
+   * correct the draft on the next round.
+   *
+   * Multiple validators may be registered; they run in registration order,
+   * all errors are concatenated.
+   */
+  onBeforeSubmit(validator: SubmitValidator): void {
+    this._submitValidators.push(validator)
+  }
 
   /** Read-only view of the components added so far. */
   get components(): ReadonlyArray<ComponentInstance> {
@@ -134,11 +165,44 @@ export class UIBuilder {
   /**
    * Finalise the draft. Returns `mountTarget` if valid, otherwise a list of
    * errors that should be returned to the LLM.
+   *
+   * Validation pipeline (in order):
+   *  1. Built-in: at least one component.
+   *  2. Built-in: flush pending triggers.
+   *  3. App-injected: every `onBeforeSubmit` validator runs against the
+   *     finalised `(components, triggers)`; any non-empty errors abort submit.
    */
   submit(): SubmitResult {
     if (this._components.length === 0) {
       return { ok: false, errors: ['No components to submit'] }
     }
+    const triggers = this.flushTriggers()
+    // Run app-injected completeness validators. Concatenate all errors so the
+    // LLM can fix everything in one round-trip instead of one error at a time.
+    const errors: string[] = []
+    for (const validate of this._submitValidators) {
+      const r = validate(this._components, triggers)
+      if (r.length > 0)
+        errors.push(...r)
+    }
+    if (errors.length > 0)
+      return { ok: false, errors }
+    return {
+      ok: true,
+      mountTarget: {
+        components: [...this._components],
+        triggers
+      }
+    }
+  }
+
+  /**
+   * Flush the pending `(eventType, eventSource)`-keyed triggers into a flat
+   * `Trigger[]`, wrapping multi-action triggers in a `sequence` node. Pure
+   * helper extracted from `submit()` so it can be called independently by
+   * validators that want to inspect the final trigger list.
+   */
+  private flushTriggers(): Trigger[] {
     const triggers: Trigger[] = []
     let i = 0
     for (const pending of this._pendingTriggers.values()) {
@@ -155,13 +219,7 @@ export class UIBuilder {
         actions
       })
     }
-    return {
-      ok: true,
-      mountTarget: {
-        components: [...this._components],
-        triggers
-      }
-    }
+    return triggers
   }
 }
 
