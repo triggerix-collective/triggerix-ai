@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.9",
   "private": true,
-  "packageManager": "pnpm@11.8.0",
+  "packageManager": "pnpm@11.9.0",
   "description": "AI integration layer for Triggerix — generates tool definitions, dynamic schemas, and system prompts from registered events, actions, and components",
   "license": "MIT",
   "homepage": "https://github.com/triggerix-collective/triggerix-ai#readme",
@@ -27,8 +27,8 @@
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^9.0.0",
-    "@types/node": "^26.0.0",
+    "@antfu/eslint-config": "^9.1.0",
+    "@types/node": "^26.0.1",
     "bumpp": "^11.1.0",
     "defu": "^6.1.7",
     "eslint": "^10.5.0",
